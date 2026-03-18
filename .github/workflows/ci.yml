@@ -20,6 +20,12 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      - name: Clean Install
+        working-directory: server
+        run: |
+            rm -rf node_modules package-lock.json
+            npm install
+      
       # ----------------------
       # BACKEND
       # ----------------------
@@ -34,7 +40,7 @@ jobs:
 
       - name: Run Backend Tests
         working-directory: server
-        run: npm test
+        run: npx test
 
       # ----------------------
       # FRONTEND
@@ -46,3 +52,7 @@ jobs:
       - name: Build Frontend
         working-directory: client
         run: npm run build
+      
+      - name: Fix Jest Permission
+        working-directory: server
+          run: chmod +x node_modules/.bin/jest
